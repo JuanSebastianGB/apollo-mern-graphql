@@ -8,6 +8,7 @@ export const resolvers = {
     projects: async () => await projectModel.find(),
     project: async (root: any, { _id }: { _id: string }) =>
       await projectModel.findById(_id),
+
     tasks: async () => await TaskModel.find(),
     task: async (root: any, { _id }: { _id: string }) =>
       await TaskModel.findById(_id),
@@ -16,6 +17,10 @@ export const resolvers = {
   Mutation: {
     createProject: async (root: any, { name, description }: Project) => {
       const project = await projectModel.create({ name, description });
+      return project;
+    },
+    deleteProject: async (root: any, _id: string) => {
+      const project = await projectModel.findByIdAndDelete(_id);
       return project;
     },
     createTask: async (root: any, { title, projectId }: any) => {
